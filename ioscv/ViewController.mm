@@ -22,7 +22,9 @@
 @end
 
 
-@interface ViewController ()
+@interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
+
+
 
 
 @property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
@@ -95,6 +97,13 @@
     // Declare a video data output
     [self setVideoDeviceOutput: [[AVCaptureVideoDataOutput alloc] init]];
     
+    NSArray *pixfmts = [[self videoDeviceOutput] availableVideoCVPixelFormatTypes];
+    for (NSNumber *n in pixfmts) {
+        int fmt = [n intValue];
+        char *fmtc = (char *)&fmt;
+        NSLog(@"fmt: %c%c%c%c", fmtc[3],fmtc[2],fmtc[1],fmtc[0]);
+    }
+
     // Add this output to our session
     if ([[self session] canAddOutput:self.videoDeviceOutput])
     {
@@ -102,6 +111,9 @@
         AVCaptureConnection *connection = [[self videoDeviceOutput] connectionWithMediaType:AVMediaTypeVideo];
         if ([connection isVideoStabilizationSupported])
             [connection setEnablesVideoStabilizationWhenAvailable:YES];
+        
+        // Set self as delegate for new buffers
+        [self.videoDeviceOutput setSampleBufferDelegate:self queue:self.sessionQueue];
     }
 }
 
@@ -193,5 +205,38 @@
 }
 
 
+- (NSInteger) getAverageIntensity: (cv::Mat *) grayImage {
+    //computes mean over roi
+    NSAssert(grayImage->channels()==1, @"Expecting gray scale image (single channel)");
+    cv::Scalar avgPixelIntensity = cv::mean( *grayImage );
+    return avgPixelIntensity.val[0];
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection {
+    NSLog(@"capture output start");
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    CVPixelBufferLockBaseAddress( pixelBuffer, 0 );
+    
+    int bufferWidth = CVPixelBufferGetWidth(pixelBuffer);
+    int bufferHeight = CVPixelBufferGetHeight(pixelBuffer);
+    unsigned char *pixel = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
+    cv::Mat image = cv::Mat(bufferHeight,bufferWidth,CV_8UC1,pixel); //put buffer in open cv, no memory copied
+    //Processing here
+    NSInteger intensity = [self getAverageIntensity:&image];
+    //End processing
+    CVPixelBufferUnlockBaseAddress( pixelBuffer, 0 );
+    NSLog(@"Intensity: %d, Image size: %dx%d",intensity, bufferWidth,bufferHeight);
+
+
+}
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+  didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection
+{
+    NSLog(@"capture drop");
+}
 
 @end

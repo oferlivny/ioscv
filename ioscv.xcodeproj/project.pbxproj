@@ -16,6 +16,9 @@
 		365432B01AF77473007DF37C /* ioscvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432AF1AF77473007DF37C /* ioscvTests.m */; };
 		36D877631AF79C4200232273 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877621AF79C4200232273 /* opencv2.framework */; };
 		36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877641AF7AF8900232273 /* AVFoundation.framework */; };
+		36D877681AF8185500232273 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877661AF8185500232273 /* CoreImage.framework */; };
+		36D877691AF8185500232273 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877671AF8185500232273 /* CoreMedia.framework */; };
+		36D8776B1AF8186C00232273 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D8776A1AF8186C00232273 /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,9 @@
 		36D877601AF79C3200232273 /* project.pbxproj */ = {isa = PBXFileReference; lastKnownFileType = text.pbxproject; name = project.pbxproj; path = ioscv.xcodeproj/project.pbxproj; sourceTree = "<group>"; };
 		36D877621AF79C4200232273 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
 		36D877641AF7AF8900232273 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		36D877661AF8185500232273 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		36D877671AF8185500232273 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		36D8776A1AF8186C00232273 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36D8776B1AF8186C00232273 /* ImageIO.framework in Frameworks */,
+				36D877681AF8185500232273 /* CoreImage.framework in Frameworks */,
+				36D877691AF8185500232273 /* CoreMedia.framework in Frameworks */,
 				36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */,
 				36D877631AF79C4200232273 /* opencv2.framework in Frameworks */,
 			);
@@ -70,6 +79,9 @@
 		365432871AF77473007DF37C = {
 			isa = PBXGroup;
 			children = (
+				36D8776A1AF8186C00232273 /* ImageIO.framework */,
+				36D877661AF8185500232273 /* CoreImage.framework */,
+				36D877671AF8185500232273 /* CoreMedia.framework */,
 				36D877641AF7AF8900232273 /* AVFoundation.framework */,
 				36D877621AF79C4200232273 /* opencv2.framework */,
 				36D877601AF79C3200232273 /* project.pbxproj */,
@@ -366,6 +378,7 @@
 				INFOPLIST_FILE = ioscv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -378,9 +391,11 @@
 					"$(inherited)",
 					/Users/ofer/dev/ios,
 				);
+				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = ioscv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

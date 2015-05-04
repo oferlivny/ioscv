@@ -13,8 +13,6 @@
 #endif
 
 
-@interface ViewController : UIViewController
-
-
+@interface ViewController : UIViewController 
 @end
 
