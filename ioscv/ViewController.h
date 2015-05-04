@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#ifdef __cplusplus
+#import <opencv2/opencv.hpp>
+#endif
+
+
 @interface ViewController : UIViewController
 
 
