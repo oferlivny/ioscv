@@ -15,6 +15,7 @@
 		365432A41AF77473007DF37C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 365432A21AF77473007DF37C /* LaunchScreen.xib */; };
 		365432B01AF77473007DF37C /* ioscvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432AF1AF77473007DF37C /* ioscvTests.m */; };
 		36D877631AF79C4200232273 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877621AF79C4200232273 /* opencv2.framework */; };
+		36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877641AF7AF8900232273 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		365432AF1AF77473007DF37C /* ioscvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ioscvTests.m; sourceTree = "<group>"; };
 		36D877601AF79C3200232273 /* project.pbxproj */ = {isa = PBXFileReference; lastKnownFileType = text.pbxproject; name = project.pbxproj; path = ioscv.xcodeproj/project.pbxproj; sourceTree = "<group>"; };
 		36D877621AF79C4200232273 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
+		36D877641AF7AF8900232273 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */,
 				36D877631AF79C4200232273 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +70,7 @@
 		365432871AF77473007DF37C = {
 			isa = PBXGroup;
 			children = (
+				36D877641AF7AF8900232273 /* AVFoundation.framework */,
 				36D877621AF79C4200232273 /* opencv2.framework */,
 				36D877601AF79C3200232273 /* project.pbxproj */,
 				365432921AF77473007DF37C /* ioscv */,
