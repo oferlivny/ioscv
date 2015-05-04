@@ -9,6 +9,19 @@
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
+
+@class AVCaptureSession;
+@interface AVCamPreviewView : UIView
+@property (nonatomic) AVCaptureSession *session;
+@end
+
+@implementation AVCamPreviewView
++ (Class)layerClass{return [AVCaptureVideoPreviewLayer class];}
+- (AVCaptureSession *)session{return [(AVCaptureVideoPreviewLayer *)[self layer] session];}
+- (void)setSession:(AVCaptureSession *)session{[(AVCaptureVideoPreviewLayer *)[self layer] setSession:session];}
+@end
+
+
 @interface ViewController ()
 
 
@@ -18,28 +31,45 @@
 @property (nonatomic) AVCaptureVideoDataOutput *videoDeviceOutput;
 @property (nonatomic) NSDictionary *camerasDict;
 
+@property (nonatomic) AVCamPreviewView *previewView;
+
 @end
+
 
 @implementation ViewController
 
+- (void) startSession {
+    // Start capture session
+    // set up error and notification handling
+    dispatch_async([self sessionQueue], ^{
+        [[self session] startRunning];
+    });
+}
+
+- (void) stopSession {
+    // Stop capture session
+    // remove error and notification handling
+    dispatch_async([self sessionQueue], ^{
+        [[self session] stopRunning];
+    });
+}
+
+
 - (void) initCamerasDict {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    self.camerasDict = [NSDictionary dictionary];
     AVCaptureDevice *back,*front;
     for (AVCaptureDevice *device in devices) {
         NSLog(@"Device name: %@", [device localizedName]);
         if ([device position] == AVCaptureDevicePositionBack) {
             NSLog(@"Device position : back");
             back = device;
-            [self.camerasDict setValue:device forKey:@"BackCamera"];
         }
         else {
             NSLog(@"Device position : front");
             front = device;
-            [self.camerasDict setValue:device forKey:@"FrontCamera"];
         }
     }
-    self.camerasDict = [NSDictionary dictionaryWithObjectsAndKeys:back,@"BackCamera", front,@"FrontCamera", nil];
+    [self setCamerasDict: [NSDictionary dictionaryWithObjectsAndKeys:back,@"BackCamera", front,@"FrontCamera", nil]];
 }
 
 - (void) initCamera {
@@ -49,7 +79,7 @@
     [self initCamerasDict];
     
     // Make the back cam as an input device
-    self.videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:[self.camerasDict valueForKey:@"BackCamera"] error:&error];
+    [self setVideoDeviceInput: [AVCaptureDeviceInput deviceInputWithDevice:[self.camerasDict valueForKey:@"BackCamera"] error:&error]];
     
     if (error)
     {
@@ -57,23 +87,71 @@
     }
     
     // Add this input to our session
-    if ([self.session canAddInput:self.videoDeviceInput])
+    if ([[self session] canAddInput:self.videoDeviceInput])
     {
-        [self.session addInput:self.videoDeviceInput];
+        [[self session] addInput:self.videoDeviceInput];
     }
     
     // Declare a video data output
-    self.videoDeviceOutput = [[AVCaptureVideoDataOutput alloc] init];
+    [self setVideoDeviceOutput: [[AVCaptureVideoDataOutput alloc] init]];
     
     // Add this output to our session
-    if ([self.session canAddOutput:self.videoDeviceOutput])
+    if ([[self session] canAddOutput:self.videoDeviceOutput])
     {
-        [self.session addOutput:self.videoDeviceOutput];
-        AVCaptureConnection *connection = [self.videoDeviceOutput connectionWithMediaType:AVMediaTypeVideo];
+        [[self session] addOutput:self.videoDeviceOutput];
+        AVCaptureConnection *connection = [[self videoDeviceOutput] connectionWithMediaType:AVMediaTypeVideo];
         if ([connection isVideoStabilizationSupported])
             [connection setEnablesVideoStabilizationWhenAvailable:YES];
     }
 }
+
+- (void) initPreview {
+    // Setup the preview view
+    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+    [self setPreviewView: [[AVCamPreviewView alloc] initWithFrame:applicationFrame]];
+    [self.view addSubview:self.previewView];
+    [self.previewView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    // Width constraint, half of parent view width
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.previewView
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:0.5
+                                                           constant:0]];
+    
+    // Height constraint, half of parent view height
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.previewView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeHeight
+                                                         multiplier:0.5
+                                                           constant:0]];
+    
+    // Center horizontally
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.previewView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+    
+    // Center vertically
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.previewView
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+
+    [[self previewView] setSession:self.session];
+
+}
+
 - (void) initSession {
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
@@ -87,6 +165,8 @@
     dispatch_async(sessionQueue, ^{
         [self initCamera];
     });
+    
+    [self initPreview];
 }
                    
 - (void)viewDidLoad {
@@ -96,9 +176,22 @@
     
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self startSession];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [self stopSession];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end
