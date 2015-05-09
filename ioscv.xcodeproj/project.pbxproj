@@ -14,6 +14,7 @@
 		365432A11AF77473007DF37C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 365432A01AF77473007DF37C /* Images.xcassets */; };
 		365432A41AF77473007DF37C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 365432A21AF77473007DF37C /* LaunchScreen.xib */; };
 		365432B01AF77473007DF37C /* ioscvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432AF1AF77473007DF37C /* ioscvTests.m */; };
+		369E42CB1AFE409B008DCB0D /* TicToc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 369E42CA1AFE409B008DCB0D /* TicToc.cpp */; };
 		36D877631AF79C4200232273 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877621AF79C4200232273 /* opencv2.framework */; };
 		36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877641AF7AF8900232273 /* AVFoundation.framework */; };
 		36D877681AF8185500232273 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877661AF8185500232273 /* CoreImage.framework */; };
@@ -45,6 +46,8 @@
 		365432A91AF77473007DF37C /* ioscvTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ioscvTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		365432AE1AF77473007DF37C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		365432AF1AF77473007DF37C /* ioscvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ioscvTests.m; sourceTree = "<group>"; };
+		369E42C91AFE409B008DCB0D /* TicToc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicToc.h; sourceTree = "<group>"; };
+		369E42CA1AFE409B008DCB0D /* TicToc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TicToc.cpp; sourceTree = "<group>"; };
 		36D877601AF79C3200232273 /* project.pbxproj */ = {isa = PBXFileReference; lastKnownFileType = text.pbxproject; name = project.pbxproj; path = ioscv.xcodeproj/project.pbxproj; sourceTree = "<group>"; };
 		36D877621AF79C4200232273 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
 		36D877641AF7AF8900232273 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -111,6 +114,8 @@
 				365432A01AF77473007DF37C /* Images.xcassets */,
 				365432A21AF77473007DF37C /* LaunchScreen.xib */,
 				365432931AF77473007DF37C /* Supporting Files */,
+				369E42C91AFE409B008DCB0D /* TicToc.h */,
+				369E42CA1AFE409B008DCB0D /* TicToc.cpp */,
 			);
 			path = ioscv;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				3654329C1AF77473007DF37C /* ViewController.mm in Sources */,
 				365432991AF77473007DF37C /* AppDelegate.m in Sources */,
 				365432961AF77473007DF37C /* main.m in Sources */,
+				369E42CB1AFE409B008DCB0D /* TicToc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +386,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -397,6 +404,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};

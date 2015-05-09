@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#include "TicToc.h"
 
 
 @class AVCaptureSession;
@@ -25,6 +26,9 @@
 @interface ViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 
+// Add to interface
+@property (nonatomic) cv::Mat image;
+@property (nonatomic) long dropped, total;
 
 
 @property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
@@ -43,6 +47,9 @@
 - (void) startSession {
     // Start capture session
     // set up error and notification handling
+    self.dropped = 0;
+    self.total = 0;
+    
     dispatch_async([self sessionQueue], ^{
         [[self session] startRunning];
     });
@@ -54,6 +61,10 @@
     dispatch_async([self sessionQueue], ^{
         [[self session] stopRunning];
     });
+    
+    NSLog(@"Total frames: %ld Dropped: %ld", self.total, self.dropped);
+    TicToc::coutStats();
+
 }
 
 
@@ -188,15 +199,26 @@
     
 }
 
+-(void)appWillResignActive:(NSNotification*)note
+{
+    [self stopSession];
+}
+
 - (void) viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [self startSession];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
+- (void) viewWillDisappear:(BOOL)animated {
     [self stopSession];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+}
+- (void) viewDidDisappear:(BOOL)animated {
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -215,28 +237,52 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection {
-    NSLog(@"capture output start");
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     CVPixelBufferLockBaseAddress( pixelBuffer, 0 );
     
-    int bufferWidth = CVPixelBufferGetWidth(pixelBuffer);
-    int bufferHeight = CVPixelBufferGetHeight(pixelBuffer);
+    int bufferWidth = static_cast<int>(CVPixelBufferGetWidth(pixelBuffer));
+    int bufferHeight = static_cast<int>(CVPixelBufferGetHeight(pixelBuffer));
     unsigned char *pixel = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
-    cv::Mat image = cv::Mat(bufferHeight,bufferWidth,CV_8UC1,pixel); //put buffer in open cv, no memory copied
-    //Processing here
-    NSInteger intensity = [self getAverageIntensity:&image];
+    cv::Mat image_orig = cv::Mat(bufferHeight,bufferWidth,CV_8UC1,pixel); //put buffer in open cv, no memory copied
+    // Put in captureOutput...
+    if (_image.rows == 0) {
+        _image = cv::Mat((int)bufferHeight,(int)bufferWidth,CV_8UC1);
+    }
+    //    [IOS_Neon neon_memcpy:image.ptr() to:image_copy.ptr() size:image.step*image.rows];
+    
+//    SW_START("copy");
+    NSInteger intensity;
+    {
+        TICTOC all("all");
+        {
+            TICTOC t("copy");
+            image_orig.copyTo(self.image);
+        }
+        
+        {
+            TICTOC t("avg");
+            intensity = [self getAverageIntensity:&_image];
+        }
+    }
+//    SW_STOP("getAverage");
+    
     //End processing
     CVPixelBufferUnlockBaseAddress( pixelBuffer, 0 );
-    NSLog(@"Intensity: %d, Image size: %dx%d",intensity, bufferWidth,bufferHeight);
+//    NSLog(@"Intensity: %ld, Image size: %dx%d",intensity, bufferWidth,bufferHeight);
 
-
+    self.total++;
+    if (self.total % 100 == 0) {
+        TicToc::coutStats();
+    }
 }
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
   didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection
 {
     NSLog(@"capture drop");
+    self.dropped++;
+    self.total++;
 }
 
 @end
