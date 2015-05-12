@@ -48,7 +48,7 @@ double TicToc::toc(const std::string &tag) {
 }
 
 void TicToc::store(const std::string &tag, double elapsed) {
-    stats_ &s = stats[tag];
+    Stats &s = stats[tag];
     if (s.count == 0) {
         s.max = elapsed;
         s.min = elapsed;
@@ -74,4 +74,8 @@ void TicToc::coutStats() {
         cout << fixed << setprecision(0) << right << setw(6) << iter->second.max / kToc2ms;
         cout << " )" << endl;
     }
+}
+
+TicToc::Stats TicToc::getStatsForTag(const std::string &tag) {
+    return stats[tag];
 }

@@ -19,7 +19,11 @@
 @implementation AVCamPreviewView
 + (Class)layerClass{return [AVCaptureVideoPreviewLayer class];}
 - (AVCaptureSession *)session{return [(AVCaptureVideoPreviewLayer *)[self layer] session];}
-- (void)setSession:(AVCaptureSession *)session{[(AVCaptureVideoPreviewLayer *)[self layer] setSession:session];}
+- (void)setSession:(AVCaptureSession *)session{
+    ((AVPlayerLayer *)[self layer]).videoGravity = AVLayerVideoGravityResizeAspectFill;
+    ((AVPlayerLayer *)[self layer]).bounds = ((AVPlayerLayer *)[self layer]).bounds;
+    [(AVCaptureVideoPreviewLayer *)[self layer] setSession:session];
+}
 @end
 
 
@@ -38,6 +42,7 @@
 @property (nonatomic) NSDictionary *camerasDict;
 
 @property (nonatomic) AVCamPreviewView *previewView;
+@property (nonatomic) UILabel *label;
 
 @end
 
@@ -128,6 +133,20 @@
     }
 }
 
+- (void) initLabel {
+    UILabel *label = [[UILabel alloc]init];
+    [self setLabel: label];
+    [self.view addSubview:label];
+    [self.label setAdjustsFontSizeToFitWidth:YES];
+    [self.label setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.label attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBaseline multiplier:1 constant:0]];
+    [self.label setText:@"Test"];
+    
+    
+}
 - (void) initPreview {
     // Setup the preview view
     CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
@@ -141,7 +160,7 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeWidth
-                                                         multiplier:0.5
+                                                         multiplier:1.0
                                                            constant:0]];
     
     // Height constraint, half of parent view height
@@ -150,7 +169,7 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeHeight
-                                                         multiplier:0.5
+                                                         multiplier:1.0
                                                            constant:0]];
     
     // Center horizontally
@@ -190,6 +209,7 @@
     });
     
     [self initPreview];
+    [self initLabel];
 }
                    
 - (void)viewDidLoad {
@@ -270,6 +290,16 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     //End processing
     CVPixelBufferUnlockBaseAddress( pixelBuffer, 0 );
 //    NSLog(@"Intensity: %ld, Image size: %dx%d",intensity, bufferWidth,bufferHeight);
+
+    TicToc::Stats s = TicToc::getStatsForTag("all");
+    NSString *string = [NSString stringWithFormat:@"Avg: %.0f Min: %.0f Max: %.0f | Total / Dropped %ld/%ld",
+                        s.sum/s.count / 1e6 ,
+                        s.min / 1e6, s.max / 1e6,
+                        self.total, self.dropped];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.label setText:string];
+    });
 
     self.total++;
     if (self.total % 100 == 0) {

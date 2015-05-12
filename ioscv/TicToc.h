@@ -15,13 +15,13 @@
 #include <map>
 class TicToc {
 public:
-    struct stats_ {
+    typedef struct stats {
         double sum;
         uint64_t count;
         double min;
         double max;
-    };
-    typedef std::map<std::string, TicToc::stats_> statsmap;
+    } Stats;
+    typedef std::map<std::string, Stats> statsmap;
 
 private:
     static statsmap stats;
@@ -39,6 +39,7 @@ public:
     static void coutToc(const std::string &tag);
     static void coutStats();
     static void clearStats() {stats.clear();}
+    static Stats getStatsForTag(const std::string &tag);
 };
 
 class TICTOC {
