@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		365432961AF77473007DF37C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432951AF77473007DF37C /* main.m */; };
 		365432991AF77473007DF37C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432981AF77473007DF37C /* AppDelegate.m */; };
-		3654329C1AF77473007DF37C /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3654329B1AF77473007DF37C /* ViewController.mm */; };
+		3654329C1AF77473007DF37C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3654329B1AF77473007DF37C /* ViewController.m */; };
 		3654329F1AF77473007DF37C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3654329D1AF77473007DF37C /* Main.storyboard */; };
 		365432A11AF77473007DF37C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 365432A01AF77473007DF37C /* Images.xcassets */; };
 		365432A41AF77473007DF37C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 365432A21AF77473007DF37C /* LaunchScreen.xib */; };
 		365432B01AF77473007DF37C /* ioscvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 365432AF1AF77473007DF37C /* ioscvTests.m */; };
+		36791F241B0377E800CB6A48 /* sauvola.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36791F231B0377E800CB6A48 /* sauvola.cpp */; };
+		36791F281B037D9400CB6A48 /* MyVision.mm in Sources */ = {isa = PBXBuildFile; fileRef = 36791F271B037D9400CB6A48 /* MyVision.mm */; };
 		369E42CB1AFE409B008DCB0D /* TicToc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 369E42CA1AFE409B008DCB0D /* TicToc.cpp */; };
 		36D877631AF79C4200232273 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877621AF79C4200232273 /* opencv2.framework */; };
 		36D877651AF7AF8900232273 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36D877641AF7AF8900232273 /* AVFoundation.framework */; };
@@ -39,13 +41,17 @@
 		365432971AF77473007DF37C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		365432981AF77473007DF37C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3654329A1AF77473007DF37C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3654329B1AF77473007DF37C /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		3654329B1AF77473007DF37C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3654329E1AF77473007DF37C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		365432A01AF77473007DF37C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		365432A31AF77473007DF37C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		365432A91AF77473007DF37C /* ioscvTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ioscvTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		365432AE1AF77473007DF37C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		365432AF1AF77473007DF37C /* ioscvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ioscvTests.m; sourceTree = "<group>"; };
+		36791F231B0377E800CB6A48 /* sauvola.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sauvola.cpp; sourceTree = "<group>"; };
+		36791F251B03793100CB6A48 /* sauvola.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sauvola.h; sourceTree = "<group>"; };
+		36791F261B037D9400CB6A48 /* MyVision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyVision.h; sourceTree = "<group>"; };
+		36791F271B037D9400CB6A48 /* MyVision.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyVision.mm; sourceTree = "<group>"; };
 		369E42C91AFE409B008DCB0D /* TicToc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicToc.h; sourceTree = "<group>"; };
 		369E42CA1AFE409B008DCB0D /* TicToc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TicToc.cpp; sourceTree = "<group>"; };
 		36D877601AF79C3200232273 /* project.pbxproj */ = {isa = PBXFileReference; lastKnownFileType = text.pbxproject; name = project.pbxproj; path = ioscv.xcodeproj/project.pbxproj; sourceTree = "<group>"; };
@@ -54,6 +60,7 @@
 		36D877661AF8185500232273 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		36D877671AF8185500232273 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		36D8776A1AF8186C00232273 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		36FD8C6B1B049F58001D817C /* MySimpleBlobDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySimpleBlobDetector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,16 +113,21 @@
 		365432921AF77473007DF37C /* ioscv */ = {
 			isa = PBXGroup;
 			children = (
+				36791F231B0377E800CB6A48 /* sauvola.cpp */,
+				36791F251B03793100CB6A48 /* sauvola.h */,
 				365432971AF77473007DF37C /* AppDelegate.h */,
 				365432981AF77473007DF37C /* AppDelegate.m */,
 				3654329A1AF77473007DF37C /* ViewController.h */,
-				3654329B1AF77473007DF37C /* ViewController.mm */,
+				3654329B1AF77473007DF37C /* ViewController.m */,
+				36791F261B037D9400CB6A48 /* MyVision.h */,
+				36791F271B037D9400CB6A48 /* MyVision.mm */,
 				3654329D1AF77473007DF37C /* Main.storyboard */,
 				365432A01AF77473007DF37C /* Images.xcassets */,
 				365432A21AF77473007DF37C /* LaunchScreen.xib */,
 				365432931AF77473007DF37C /* Supporting Files */,
 				369E42C91AFE409B008DCB0D /* TicToc.h */,
 				369E42CA1AFE409B008DCB0D /* TicToc.cpp */,
+				36FD8C6B1B049F58001D817C /* MySimpleBlobDetector.h */,
 			);
 			path = ioscv;
 			sourceTree = "<group>";
@@ -246,9 +258,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3654329C1AF77473007DF37C /* ViewController.mm in Sources */,
+				3654329C1AF77473007DF37C /* ViewController.m in Sources */,
 				365432991AF77473007DF37C /* AppDelegate.m in Sources */,
 				365432961AF77473007DF37C /* main.m in Sources */,
+				36791F281B037D9400CB6A48 /* MyVision.mm in Sources */,
+				36791F241B0377E800CB6A48 /* sauvola.cpp in Sources */,
 				369E42CB1AFE409B008DCB0D /* TicToc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
